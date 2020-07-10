@@ -1,4 +1,23 @@
+<h1>All the cars</h1>
 <% car.forEach(function(res){ %>
-    <h1><%= res.catogery %></h1>
         <h1><%=res.name %></h1>
 <% }) %>
+
+
+
+<form method="post" action="/availablecars">
+    <button type="submit">get available Cars</button>
+</form>
+<form method="post" action="/SUV">
+    <button type="submit">SUV's</button>
+</form>
+<form method="post" action="/hatchback">
+    <button type="submit">Hatchback's</button>
+</form>
+<form method="post" action="/sedan">
+    <button type="submit">Sedan's</button>
+</form>
+<form method="post" action="/rent">
+    <button type="submit">Rent</button>
+</form>
+

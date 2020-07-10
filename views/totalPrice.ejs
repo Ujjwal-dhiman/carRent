@@ -1,0 +1,14 @@
+<h1>Your total price would be INR. <%= totalprice %> </h1>
+<h1>for <%= day %> days</h1>
+<h1>Car <%= car %> </h1>
+
+
+<form method="post" action="/totalprice">
+    
+    <input type="number" name="price" value="<%= totalprice %>" readonly>
+   
+    <input type="nuber" name="days" value="<%= day %>" readonly>
+   
+    <input type="text" name="car" value="<%= car %>" readonly>
+    <button>Confirm</button>
+</form>
