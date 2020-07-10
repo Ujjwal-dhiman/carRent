@@ -64,7 +64,7 @@ app.get("/" , function(req,res){
 
 
 //Route to get all available cars only
-app.post("/availablecars" , function(req,res){
+app.get("/availablecars" , function(req,res){
     Car.find({available:"true"},function(err,response){
         if(!err){
             res.render("availablecars" , {car:response})
@@ -78,7 +78,7 @@ app.post("/availablecars" , function(req,res){
 
 
 //Route for getting cars on basis of catogery
-app.post("/SUV" , function(req,res){
+app.get("/SUV" , function(req,res){
     Car.find({catogery:"SUV"},function(err,response){
         if(!err){
             res.render("suv" , {car:response})
@@ -92,7 +92,7 @@ app.post("/SUV" , function(req,res){
 
 
 //Route for getting cars on basis of catogery
-app.post("/hatchback" , function(req,res){
+app.get("/hatchback" , function(req,res){
     Car.find({catogery:"Hatchback"},function(err,response){
         if(!err){
             res.render("hatchback" , {car:response})
@@ -106,7 +106,7 @@ app.post("/hatchback" , function(req,res){
 
 
 //Route for getting cars on basis of catogery
-app.post("/sedan" , function(req,res){
+app.get("/sedan" , function(req,res){
     Car.find({catogery:"Sedan"},function(err,response){
         if(!err){
             res.render("sedan" , {car:response})
@@ -120,7 +120,7 @@ app.post("/sedan" , function(req,res){
 
 
 //Route for getting rent in basis of different cars
-app.post("/rent" , function(req,res){
+app.get("/rent" , function(req,res){
     Car.find({available:"true"},function(err,response){
         if(!err){
             res.render("rent" , {car:response})
@@ -204,13 +204,16 @@ app.post("/specificCar",function(req,res){
 //Route for updating the booked car
 app.post("/totalprice" , function(req,res){
     let carName = req.body.car;
+    let price = req.body.price;
+    let days = req.body.days; 
     var query = {name : carName};
     Car.findOneAndUpdate(query, { available: false }, function(err,result){
         if(err){
             console.log(err)
         }
         else{
-            res.send("Thank you for booking with us" +" " + carName + " " +"is booked");
+            res.send("Thank you for booking with us" +" " + carName + " " + "for" + " " + 
+            days + " " + "days" + " " + "at price" + " " + price + " " + "is booked");
         }
     })
         

@@ -1,3 +1,9 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <h1>Sedans</h1>
 <% car.forEach(function(res){ %>
-    <h1><%=res.name %></h1>
+    
+    <h3><%=res.name %></h3>
 <% }) %>
+</div>

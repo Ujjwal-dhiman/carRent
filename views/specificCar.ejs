@@ -1,14 +1,22 @@
+<%- include('partials/header') %>
+
+<div class="container">
 <% specificCar.forEach(function(res){ %>
-    <h1>So you have Chosen <%=name=res.name %></h1>
-    <h1>Catogery <%= cat=res.catogery %></h1>
+    <h1 style="text-align: center;">So you have Chosen : <%=name=res.name %></h1><br>
+    <h1 style="text-align: center;">Catogery : <%= cat=res.catogery %></h1><br>
  <% }) %>
  <h1>Let's calculate your price</h1>
 
- <form method="POST" action="/specificCar">
-    <input type="text" name="category" value="<%= cat %>" readonly>
-    <input type="text" name="carName" value="<%= name %>" readonly>
-     <input type="number" name="days" placeholder="Enter number of days you want to rent">
-     <button type="submit">check</button>
- </form>
-
-
+ <form class="form-inline" method="POST" action="/specificCar">
+    <div class="form-group">
+        <input type="text" name="category" value="<%= cat %>" readonly>
+    </div>
+    <div class="form-group">
+        <input type="text" name="carName" value="<%= name %>" readonly>
+    </div>
+    <div class="form-group">
+        <input type="number" name="days" placeholder="Enter number of days you want to rent">
+    </div>
+    <button type="submit" class="btn btn-default">Check</button>
+  </form>
+</div>
