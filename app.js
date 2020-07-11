@@ -31,7 +31,7 @@ const Car = mongoose.model("car" , carSchema);
 
 
 //Dynamic Route for adding cars to database //
-app.post("/" , function(req,res){
+app.post("/addcars" , function(req,res){
     const newCar = new Car({
         catogery:req.body.catogery,
         name:req.body.name,
@@ -48,12 +48,15 @@ app.post("/" , function(req,res){
 })
 
 
-
-//Home route for getting all cars in database
 app.get("/" , function(req,res){
+    res.render("home")
+})
+
+//Route for getting all cars in database
+app.get("/allcars" , function(req,res){
     Car.find({},function(err,response){
         if(!err){
-            res.render("home" ,{car:response})
+            res.render("allcars" ,{car:response})
         }
         else{
             console.log(err)
@@ -221,7 +224,7 @@ app.post("/totalprice" , function(req,res){
 
 
 
-//Listening to port 3000
-app.listen(3000,function(){
-    console.log("server started on port 3000")
+//Listening to port 5000
+app.listen(5000,function(){
+    console.log("server started on port 5000")
 })
