@@ -47,16 +47,16 @@ app.post("/addcars" , function(req,res){
         })
 })
 
-
-app.get("/" , function(req,res){
-    res.render("home")
-})
+ //Home route//
+// app.get("/" , function(req,res){
+//     res.render("home")
+// })
 
 //Route for getting all cars in database
 app.get("/allcars" , function(req,res){
     Car.find({},function(err,response){
         if(!err){
-            res.render("allcars" ,{car:response})
+            res.send(response)
         }
         else{
             console.log(err)
@@ -70,7 +70,7 @@ app.get("/allcars" , function(req,res){
 app.get("/availablecars" , function(req,res){
     Car.find({available:"true"},function(err,response){
         if(!err){
-            res.render("availablecars" , {car:response})
+            res.send(response)
         }
         else{
             console.log(err)
@@ -84,7 +84,7 @@ app.get("/availablecars" , function(req,res){
 app.get("/SUV" , function(req,res){
     Car.find({catogery:"SUV"},function(err,response){
         if(!err){
-            res.render("suv" , {car:response})
+            res.send(response)
         }
         else{
             console.log(err)
@@ -98,7 +98,7 @@ app.get("/SUV" , function(req,res){
 app.get("/hatchback" , function(req,res){
     Car.find({catogery:"Hatchback"},function(err,response){
         if(!err){
-            res.render("hatchback" , {car:response})
+            res.send(response)
         }
         else{
             console.log(err)
@@ -112,7 +112,7 @@ app.get("/hatchback" , function(req,res){
 app.get("/sedan" , function(req,res){
     Car.find({catogery:"Sedan"},function(err,response){
         if(!err){
-            res.render("sedan" , {car:response})
+            res.send(response)
         }
         else{
             console.log(err)
@@ -126,7 +126,7 @@ app.get("/sedan" , function(req,res){
 app.get("/rent" , function(req,res){
     Car.find({available:"true"},function(err,response){
         if(!err){
-            res.render("rent" , {car:response})
+            res.send(response)
         }
         else{
             console.log(err)
@@ -141,7 +141,7 @@ app.get("/car/:carID" , function(req,res){
     const carID = req.params.carID;
     Car.find({_id:carID} ,function(err,response){
         if(!err){
-            res.render("specificCar" ,{specificCar:response})
+            res.send(response)
 
         }
         else{
@@ -166,7 +166,7 @@ app.post("/specificCar",function(req,res){
              totalPrice = days * premiumFee;
              day = req.body.days;
              car = req.body.carName;
-            res.render("totalPrice" , {totalprice:totalPrice , day:days , car:car});
+            res.send(totalPrice,day,car)
             break;
         
         case 'Hatchback' :
@@ -174,13 +174,13 @@ app.post("/specificCar",function(req,res){
                     totalPrice = regularFee;
                     day = req.body.days;
                     car = req.body.carName;
-                    res.render("totalPrice" , {totalprice:totalPrice , day:days , car:car}) ;
+                    res.send(totalPrice,day,car)
                 }
                 else if(days>3){
                     totalPrice= regularFee + (regularFee * (days-3));
                     day = req.body.days;
                     car = req.body.carName;
-                    res.render("totalPrice" , {totalprice:totalPrice , day:days , car:car}) ;
+                    res.send(totalPrice,day,car)
                 }
                 break;
                 
@@ -189,13 +189,13 @@ app.post("/specificCar",function(req,res){
                 totalPrice = regularFee;
                 day = req.body.days;
                 car = req.body.carName;
-                res.render("totalPrice" , {totalprice:totalPrice , day:days , car:car}) ;
+                res.send(totalPrice,day,car)
             }
             else if(days>3){
                 totalPrice= regularFee + (regularFee * (days-5));
                 day = req.body.days;
                 car = req.body.carName;
-                res.render("totalPrice" , {totalprice:totalPrice,day:days , car:car});
+                res.send(totalPrice,day,car)
             }
                 break;    
     } 
