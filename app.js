@@ -322,6 +322,8 @@ app.post("/totalprice" , function(req,res){
 
 
 //Listening to port 5000
-app.listen(5000,function(){
-    console.log("server started on port 5000")
-})
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 5000;
+}
+app.listen(port);
