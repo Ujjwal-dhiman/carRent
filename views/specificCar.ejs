@@ -4,7 +4,12 @@
 <% specificCar.forEach(function(res){ %>
     <h1 style="text-align: center;">So you have Chosen : <%=name=res.name %></h1><br>
     <h1 style="text-align: center;">Catogery : <%= cat=res.catogery %></h1><br>
+    <img style="max-width: 100%;max-height: 100%;" src="data:res/<%=res.img.contentType%>;base64, 
+					<%=res.img.data.toString('base64')%>">
  <% }) %>
+
+</div>
+<div style="text-align: center;">
  <h1>Let's calculate your price :</h1>
 
  <form class="form-inline" method="POST" action="/specificCar">

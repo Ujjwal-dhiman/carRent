@@ -8,10 +8,13 @@ h1{
 }
 h2{
     text-align: center;
-    padding-bottom: 50px;
     text-decoration: underline;
 }
 h3{
     text-align: center;
     padding: 10px 0;
+}
+img{
+    max-width: 100%;
+    max-height: 100%;
 }

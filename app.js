@@ -3,54 +3,93 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
+var fs = require('fs'); 
+var path = require('path'); 
+
 
 //Initialising of Application //
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false })) 
+app.use(bodyParser.json()) 
+app.set('view engine', 'ejs');
+app.use(express.static("public"));
+
+
+
 
 
 //Mongoose conection //
 mongoose.connect("mongodb://localhost:27017/carDB",{useNewUrlParser:true,useUnifiedTopology: true})
 
 
-app.use(bodyParser.urlencoded({extended:true}));
-app.set('view engine', 'ejs');
-app.use(express.static("public"));
-
 
 //Basic Schema for database //
-const carSchema = {
+var carSchema = new mongoose.Schema({
     catogery : String,
     name : String,
-    available : Boolean
-}
+    available : Boolean,
+    img: //since image can't be stored as a normal string file it uses bufferstream//
+    { 
+        data: Buffer, 
+        contentType: String 
+    } 
+})
 
 
 //Database Model //
-const Car = mongoose.model("car" , carSchema);
+ Car = new mongoose.model("Car" , carSchema);
+var fs = require('fs'); 
+var path = require('path'); 
+var multer = require('multer'); //multer is used to upload images to database //
+  
+var storage = multer.diskStorage({  //Defined variables for storing name of file and where to store //
+    destination: (req, file, cb) => { 
+        cb(null, 'uploads') 
+    }, 
+    filename: (req, file, cb) => { 
+        cb(null, file.fieldname + '-' + Date.now()) 
+    } 
+}); 
+  
+var upload = multer({ storage: storage }); 
 
 
 
 //Dynamic Route for adding cars to database //
-app.post("/addcars" , function(req,res){
-    const newCar = new Car({
+app.post('/addcars', upload.single('image'), (req, res, next) => { 
+  
+    var obj = new Car( { 
         catogery:req.body.catogery,
         name:req.body.name,
-        available:req.body.available
+        available:req.body.available,
+        img: { 
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+            contentType: 'image/jpg'
+        } 
     }) 
-        newCar.save(function(err){
-            if(!err){
-                res.send(("added successfully"))
-            }
-            else{
-                console.log(err);
-            }
-        })
-})
+    obj.save(function(err){
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.redirect("/")
+        }
+    })
+});
 
 
+// Getting home route
 app.get("/" , function(req,res){
     res.render("home")
 })
+
+
+//Adding images to database
+app.get("/add" , function(req,res){
+    res.render("add")
+})
+
+
 
 //Route for getting all cars in database
 app.get("/allcars" , function(req,res){

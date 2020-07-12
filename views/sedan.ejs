@@ -5,5 +5,7 @@
 <% car.forEach(function(res){ %>
     
     <h3><%=res.name %></h3>
+    <img src="data:res/<%=res.img.contentType%>;base64, 
+					<%=res.img.data.toString('base64')%>">
 <% }) %>
 </div>
