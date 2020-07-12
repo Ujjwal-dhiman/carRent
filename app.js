@@ -1,10 +1,14 @@
 //Basic Imports //
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 var fs = require('fs'); 
 var path = require('path'); 
+
+
+
 
 
 //Initialising of Application //
@@ -18,8 +22,16 @@ app.use(express.static("public"));
 
 
 
+
+
+
 //Mongoose conection //
-mongoose.connect("mongodb://localhost:27017/carDB",{useNewUrlParser:true,useUnifiedTopology: true})
+
+mongoose.connect(process.env.URL,{useNewUrlParser:true,useUnifiedTopology: true})
+
+
+
+
 
 
 
@@ -28,12 +40,15 @@ var carSchema = new mongoose.Schema({
     catogery : String,
     name : String,
     available : Boolean,
-    img: //since image can't be stored as a normal string file it uses bufferstream//
+    img:     //since image can't be stored as a normal string file it uses bufferstream//
     { 
         data: Buffer, 
         contentType: String 
     } 
 })
+
+
+
 
 
 //Database Model //
@@ -55,6 +70,10 @@ var upload = multer({ storage: storage });
 
 
 
+
+
+
+
 //Dynamic Route for adding cars to database //
 app.post('/addcars', upload.single('image'), (req, res, next) => { 
   
@@ -64,7 +83,7 @@ app.post('/addcars', upload.single('image'), (req, res, next) => {
         available:req.body.available,
         img: { 
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-            contentType: 'image/jpg'
+            contentType: process.env.IMAGE
         } 
     }) 
     obj.save(function(err){
@@ -78,16 +97,26 @@ app.post('/addcars', upload.single('image'), (req, res, next) => {
 });
 
 
+
+
+
+
 // Getting home route
 app.get("/" , function(req,res){
     res.render("home")
 })
 
 
+
+
+
 //Adding images to database
 app.get("/add" , function(req,res){
     res.render("add")
 })
+
+
+
 
 
 
@@ -105,6 +134,9 @@ app.get("/allcars" , function(req,res){
 
 
 
+
+
+
 //Route to get all available cars only
 app.get("/availablecars" , function(req,res){
     Car.find({available:"true"},function(err,response){
@@ -116,6 +148,9 @@ app.get("/availablecars" , function(req,res){
         }
     })
 })
+
+
+
 
 
 
@@ -133,6 +168,10 @@ app.get("/SUV" , function(req,res){
 
 
 
+
+
+
+
 //Route for getting cars on basis of catogery
 app.get("/hatchback" , function(req,res){
     Car.find({catogery:"Hatchback"},function(err,response){
@@ -144,6 +183,9 @@ app.get("/hatchback" , function(req,res){
         }
     })
 })
+
+
+
 
 
 
@@ -161,6 +203,10 @@ app.get("/sedan" , function(req,res){
 
 
 
+
+
+
+
 //Route for getting rent in basis of different cars
 app.get("/rent" , function(req,res){
     Car.find({available:"true"},function(err,response){
@@ -172,6 +218,9 @@ app.get("/rent" , function(req,res){
         }
     })
 })
+
+
+
 
 
 
@@ -188,6 +237,9 @@ app.get("/car/:carID" , function(req,res){
         }
     })
 })
+
+
+
 
 
 
@@ -243,6 +295,9 @@ app.post("/specificCar",function(req,res){
 
 
 
+
+
+
 //Route for updating the booked car
 app.post("/totalprice" , function(req,res){
     let carName = req.body.car;
@@ -260,6 +315,9 @@ app.post("/totalprice" , function(req,res){
     })
         
 })
+
+
+
 
 
 
