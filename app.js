@@ -27,7 +27,7 @@ app.use(express.static("public"));
 
 //Mongoose conection //
 
-mongoose.connect(process.env.URL,{useNewUrlParser:true,useUnifiedTopology: true})
+mongoose.connect("mongodb+srv://admin-ujjwal:Ujjwaldhiman@todolist-fxluc.mongodb.net/ujjwalblog",{useNewUrlParser:true,useUnifiedTopology: true})
 
 
 
@@ -83,7 +83,7 @@ app.post('/addcars', upload.single('image'), (req, res, next) => {
         available:req.body.available,
         img: { 
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-            contentType: process.env.IMAGE
+            contentType: 'image/jpg'
         } 
     }) 
     obj.save(function(err){
